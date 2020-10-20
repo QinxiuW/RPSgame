@@ -1,6 +1,6 @@
 package RPSgame.utils;
 
-public class TextUtils {
+public class CommonMessage {
 
   /**
    * Print welcome text to the console.

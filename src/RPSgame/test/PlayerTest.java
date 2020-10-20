@@ -3,6 +3,7 @@ package RPSgame.test;
 
 import RPSgame.demo.Player;
 import java.util.Arrays;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class PlayerTest {
@@ -11,7 +12,7 @@ public class PlayerTest {
   @Test
   public void getNameTest() {
     Player p = new Player("testName", true);
-    assert (p.getName().equals("testName"));
+    Assert.assertEquals(p.getName(), "testName");
   }
 
   @Test
@@ -19,8 +20,8 @@ public class PlayerTest {
     Player fairPlayer = new Player("fairPlayer", true);
     Player unfairPlayer = new Player("unfairPlayer", false);
 
-    assert (fairPlayer.getChooseList().equals(Player.COMPLETE_CHOICE_LIST));
-    assert (unfairPlayer.getChooseList().equals(Player.ROCK_CHOICE_LIST));
+    Assert.assertTrue(fairPlayer.getChooseList().equals(Player.COMPLETE_CHOICE_LIST));
+    Assert.assertTrue(unfairPlayer.getChooseList().equals(Player.ROCK_CHOICE_LIST));
   }
 
   @Test
@@ -30,7 +31,7 @@ public class PlayerTest {
 
     int number = 3;
     p.setWinCounter(number);
-    assert (p.getWinCounter() == number);
+    Assert.assertEquals(p.getWinCounter(), number);
   }
 
   @Test
@@ -40,7 +41,7 @@ public class PlayerTest {
 
     int number = 3;
     p.setDrawCounter(number);
-    assert (p.getDrawCounter() == number);
+    Assert.assertEquals(p.getDrawCounter(), number);
   }
 
   @Test
@@ -48,16 +49,17 @@ public class PlayerTest {
     // fair case
     Player p1 = new Player("testName1", true);
     for (int x = 0; x < 10; x++) {
-      assert (Arrays.stream(Player.COMPLETE_CHOICE_LIST).anyMatch(p1.getChoice()::equals));
+      Assert
+          .assertTrue(Arrays.stream(Player.COMPLETE_CHOICE_LIST).anyMatch(p1.getChoice()::equals));
     }
 
     // unfair case
     Player p2 = new Player("testName2", false);
     for (int x = 0; x < 10; x++) {
-      assert (Arrays.stream(Player.ROCK_CHOICE_LIST).anyMatch(p2.getChoice()::equals));
+      Assert
+          .assertTrue(Arrays.stream(Player.ROCK_CHOICE_LIST).anyMatch(p2.getChoice()::equals));
     }
   }
-
 
 
 }

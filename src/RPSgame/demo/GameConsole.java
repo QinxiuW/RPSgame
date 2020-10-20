@@ -3,33 +3,37 @@ package RPSgame.demo;
 import RPSgame.server.MyHttpHandler;
 import RPSgame.server.MyHttpServer;
 import RPSgame.utils.CommonUtils;
-import RPSgame.utils.TextUtils;
+import RPSgame.utils.CommonMessage;
 import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class RPSconsole {
+public class GameConsole {
 
 
   final static int GAME_NUMBER = 10;
-
+  public final static String OUTPUT_FILE_PATH = "result.txt";
   String resultMsg = "";
 
   public void start() {
-    TextUtils.welcomeText();
-    TextUtils.modeChoiceText();
+    CommonMessage.welcomeText();
+    CommonMessage.modeChoiceText();
     // the option range is 1-3: [1]fair mode,[2]unfair mode,[3]remote mode
     int input = CommonUtils.getNumberInputWithLimit(3);
 
+
     switch (input) {
       case 1:
+        System.out.println("you have chosen fair mode");
         fairMode();
         break;
       case 2:
+        System.out.println("you have chosen unfair mode");
         unfairMode();
         break;
       case 3:
+        System.out.println("you have chosen remote mode");
         try {
           remoteMode();
         } catch (IOException | InterruptedException e) {
@@ -40,38 +44,40 @@ public class RPSconsole {
   }
 
   public void end() {
-    TextUtils.outputChoiceText();
+    CommonMessage.outputChoiceText();
     // the option range is 1-2: [1]Console,[2]File
     int input = CommonUtils.getNumberInputWithLimit(2);
 
     switch (input) {
       case 1:
+        System.out.println("you have chosen [1]Console");
         System.out.println(this.resultMsg);
         break;
       case 2:
-        CommonUtils.outputFile("result.txt", this.resultMsg);
+        System.out.println("you have chosen [2]File");
+        CommonUtils.outputFile(OUTPUT_FILE_PATH, this.resultMsg);
         break;
     }
-    TextUtils.goodByeText();
-    System.exit(0);
+    CommonMessage.goodByeText();
+
   }
 
 
-  public void fairMode() {
+  private void fairMode() {
     // players set up
     Player p1 = new Player("Elisa", true);
     Player p2 = new Player("Juan", true);
     gameProcess(p1, p2);
   }
 
-  public void unfairMode() {
+  private void unfairMode() {
     // players set up
     Player p1 = new Player("Elisa", true);
     Player p2 = new Player("Juan", false);
     gameProcess(p1, p2);
   }
 
-  public void remoteMode() throws IOException, InterruptedException {
+  private void remoteMode() throws IOException, InterruptedException {
     // Server set up
     BlockingQueue<String> queue = new LinkedBlockingQueue<>(1);
     MyHttpHandler httpHandler = new MyHttpHandler(queue);
@@ -95,7 +101,6 @@ public class RPSconsole {
     httpServer.close();
   }
 
-
   private void gameProcess(Player p1,Player p2){
 
     Game game = new Game(p1, p2);
@@ -108,12 +113,11 @@ public class RPSconsole {
   }
 
   private String finalResultInfo(Player p1,Player p2) {
-    String msg ="\n\n===================\n FINAL RESULT \n===================\n[" + p1.getName() + "]"
+    return "\n\n===================\n FINAL RESULT \n===================\n[" + p1.getName() + "]"
         + " wins: " + p1.getWinCounter() + " draws: " + p1
         .getDrawCounter() + "\n[" + p2.getName() + "]" + " wins: " + p2.getWinCounter()
         + " draws: " + p2
         .getDrawCounter();
-    return msg;
   }
 }
 

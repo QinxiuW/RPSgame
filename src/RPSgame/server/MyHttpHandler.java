@@ -9,7 +9,6 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
-import java.util.LinkedList;
 import java.util.concurrent.BlockingQueue;
 
 public class MyHttpHandler implements HttpHandler {
@@ -22,7 +21,7 @@ public class MyHttpHandler implements HttpHandler {
   @Override
   public void handle(HttpExchange httpExchange) throws IOException {
     String requestMethod = httpExchange.getRequestMethod();
-    if(requestMethod.equalsIgnoreCase("POST")){//客户端的请求是get方法
+    if(requestMethod.equalsIgnoreCase("POST")){
       //设置服务端响应的编码格式，否则在客户端收到的可能是乱码
       Headers responseHeaders = httpExchange.getResponseHeaders();
       responseHeaders.set("Content-Type", "text/html;charset=utf-8");

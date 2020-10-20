@@ -1,6 +1,7 @@
 package RPSgame.demo;
 
 public class Player {
+
   // 1.Rock 2.Paper 3.Scissors
   public final static String[] COMPLETE_CHOICE_LIST = {"Rock", "Paper", "Scissors"};
   public final static String[] ROCK_CHOICE_LIST = {"Rock"};
