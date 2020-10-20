@@ -10,7 +10,13 @@ import java.util.Scanner;
 
 public class Utils {
 
-  public static void outPutFile(String pathName, String data) {
+  /**
+   * Output the text to a file with a specific path name.
+   *
+   * @param pathName {@code String}
+   * @param data {@code String}
+   */
+  public static void outputFile(String pathName, String data) {
     try {
       File file = new File(pathName);
 
@@ -19,7 +25,6 @@ public class Utils {
         file.createNewFile();
       }
 
-      //true = append file
       FileWriter fileWriter = new FileWriter(file.getName());
       BufferedWriter bufferWriter = new BufferedWriter(fileWriter);
       bufferWriter.write(data);

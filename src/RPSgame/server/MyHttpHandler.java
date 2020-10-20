@@ -14,20 +14,12 @@ import java.util.concurrent.BlockingQueue;
 public class MyHttpHandler implements HttpHandler {
 
   private BlockingQueue<String> queue;
-
-//  private LinkedList<String> q;
   public MyHttpHandler(BlockingQueue<String> queue){
     this.queue = queue;
   }
 
-//  public MyHttpHandler(LinkedList<String> q){
-//    this.q = q;
-//  }
-
-
   @Override
   public void handle(HttpExchange httpExchange) throws IOException {
-//    System.out.println("receive");
     String requestMethod = httpExchange.getRequestMethod();
     if(requestMethod.equalsIgnoreCase("POST")){//客户端的请求是get方法
       //设置服务端响应的编码格式，否则在客户端收到的可能是乱码

@@ -17,12 +17,12 @@ public class Main {
 
   public static void main(String[] args) throws IOException, InterruptedException {
     BlockingQueue<String> queue = new LinkedBlockingQueue<>(1);
-//    LinkedList<String> q  =  new LinkedList<String>();
     MyHttpHandler httpHander = new MyHttpHandler(queue);
     MyHttpServer httpServer = new MyHttpServer(httpHander);
 
     start(queue);
-//    remoteMode(queue );
+
+    //outputResult(result)
     httpServer.close();
     System.exit(0);
   }
@@ -36,6 +36,25 @@ public class Main {
     System.out.println(" *[3]remote mode");
   }
 
+
+  public static void outputChoiceText(){
+    System.out.println("Choose one output option please:");
+    System.out.println(" *[1]Console");
+    System.out.println(" *[2]File");
+  }
+
+
+  public static void outputResult(String result){
+    outputChoiceText();
+    int input = Utils.getNumberInputWithLimit(2);
+    switch (input){
+      case 1:
+        System.out.println(result);
+        break;
+      case 2:
+        Utils.outPutFile("result.txt",result);
+    }
+  }
 
   public static void start(BlockingQueue<String> queue) throws InterruptedException {
 // 1.Rock 2.Paper 3.Scissors
@@ -93,7 +112,6 @@ public class Main {
     while (true) {
       msg = queue.take();
       if (msg != null) {
-        received = true;
         System.out.println("remote player is connecting");
         break;
       }

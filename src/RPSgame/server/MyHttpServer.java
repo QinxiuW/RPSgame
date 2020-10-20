@@ -20,7 +20,7 @@ public class MyHttpServer {
     this.httpServer.setExecutor(Executors.newFixedThreadPool(1));
     //启动服务器
     this.httpServer.start();
-    System.out.println("started");
+    System.out.println("server started...");
   }
 
   public void close(){
