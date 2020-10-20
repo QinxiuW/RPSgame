@@ -12,8 +12,6 @@ import java.util.concurrent.atomic.AtomicReference;
 public class RPSconsole {
 
 
-//  final static String[] COMPLETE_CHOICE_LIST = {"Rock", "Paper", "Scissors"};
-//  final static String[] ROCK_CHOICE_LIST = {"Rock"};
   final static int GAME_NUMBER = 10;
 
   String resultMsg = "";
@@ -49,13 +47,13 @@ public class RPSconsole {
     switch (input) {
       case 1:
         System.out.println(this.resultMsg);
-        System.exit(0);
         break;
       case 2:
         CommonUtils.outputFile("result.txt", this.resultMsg);
-        System.exit(0);
         break;
     }
+    TextUtils.goodByeText();
+    System.exit(0);
   }
 
 
@@ -97,16 +95,25 @@ public class RPSconsole {
     httpServer.close();
   }
 
-  private void gameProcess(Player p1, Player p2) {
-    // game set up
+
+  private void gameProcess(Player p1,Player p2){
+
     Game game = new Game(p1, p2);
-    // process the game and get result
-    game.play(GAME_NUMBER);
-    this.resultMsg = this.resultMsg.concat(game.getResultInfo());
-//    System.out.println(resultMsg);
+
+    for(int x=1 ; x<GAME_NUMBER+1; x++){
+      String result = game.play(x);
+      this.resultMsg = this.resultMsg.concat(result);
+    }
+    this.resultMsg = this.resultMsg.concat(finalResultInfo(p1,p2));
   }
 
-
-
+  private String finalResultInfo(Player p1,Player p2) {
+    String msg ="\n\n===================\n FINAL RESULT \n===================\n[" + p1.getName() + "]"
+        + " wins: " + p1.getWinCounter() + " draws: " + p1
+        .getDrawCounter() + "\n[" + p2.getName() + "]" + " wins: " + p2.getWinCounter()
+        + " draws: " + p2
+        .getDrawCounter();
+    return msg;
+  }
 }
 

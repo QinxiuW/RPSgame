@@ -6,39 +6,24 @@ public class Game {
 
   private final Player p2;
 
-  private String resultInfo;
-
   public Game(Player p1, Player p2) {
     this.p1 = p1;
     this.p2 = p2;
-    this.resultInfo = "";
   }
 
-  /**
-   * Play the game regard to the given number of iterations and update the result information.
-   *
-   * @param iteration {@code int}
-   */
-  public void play(int iteration) {
-    for (int idx = 1; idx < iteration + 1; idx++) {
-      // get choice of 2 players
-      String p1Choice = p1.getChoice();
-      String p2Choice = p2.getChoice();
-      // compare the choices
-      int result = compareChoices(p1Choice, p2Choice);
-      // update the result
-      updateResult(idx, result, p1Choice, p2Choice);
-    }
-    addFinalResultInfo();
-  }
+  public String play(int gameId){
 
-  /**
-   * result information getter
-   *
-   * @return {@code String}
-   */
-  public String getResultInfo() {
-    return this.resultInfo;
+    // init Players
+    String p1Choice = p1.getChoice();
+    String p2Choice = p2.getChoice();
+
+    // compare the choices
+    int result = compareChoices(p1Choice, p2Choice);
+
+    // update the result
+    updateResultCounter(result);
+
+    return getResultInfo(gameId,result,p1Choice,p2Choice);
   }
 
   // [-1]p1 wins, [0]draw, [1]p2 wins
@@ -55,11 +40,23 @@ public class Game {
     return 0;
   }
 
-  private void updateResult(int iteration, int result, String p1Choice, String p2Choice) {
-    this.resultInfo = this.resultInfo
-        .concat("\n===================\n Game" + iteration + "\n===================\n");
-    updateResultCounter(result);
-    updateResultMsg(result, p1Choice, p2Choice);
+  private String getResultInfo(int iteration, int result, String p1Choice, String p2Choice){
+
+    String msg = "\n\n===================\n Game" + iteration + "\n===================\n";
+    msg = msg.concat("[" + this.p1.getName() + "] has chosen: [" + p1Choice + "]\n" +
+        "[" + this.p2.getName() + "] has chosen: [" + p2Choice + "]\n");
+    switch (result) {
+      case -1:
+        msg = msg.concat("the winner is: [" + this.p1.getName() + "]");
+        break;
+      case 0:
+        msg = msg.concat("the game was a draw");
+        break;
+      case 1:
+        msg = msg.concat("the winner is: [" + this.p2.getName() + "]");
+        break;
+    }
+    return msg;
   }
 
   private void updateResultCounter(int result) {
@@ -75,33 +72,6 @@ public class Game {
         this.p2.setWinCounter(this.p2.getWinCounter() + 1);
         break;
     }
-  }
-
-  private void updateResultMsg(int result, String p1Choose, String p2Choose) {
-    String msg = "[" + this.p1.getName() + "] has chosen: [" + p1Choose + "]\n" +
-        "[" + this.p2.getName() + "] has chosen: [" + p2Choose + "]\n";
-    switch (result) {
-      case -1:
-        msg = msg.concat("the winner is: [" + this.p1.getName() + "]");
-        break;
-      case 0:
-        msg = msg.concat("the game was a draw");
-        break;
-      case 1:
-        msg = msg.concat("the winner is: [" + this.p2.getName() + "]");
-        break;
-    }
-    // TODO: if result != -1 ,0,1
-    this.resultInfo = this.resultInfo.concat(msg);
-  }
-
-  private void addFinalResultInfo() {
-    String msg ="\n\n===================\n FINAL RESULT \n===================\n[" + p1.getName() + "]"
-        + " wins: " + p1.getWinCounter() + " draws: " + p1
-        .getDrawCounter() + "\n[" + p2.getName() + "]" + " wins: " + p2.getWinCounter()
-        + " draws: " + p2
-        .getDrawCounter();
-    this.resultInfo=  this.resultInfo.concat(msg);
   }
 }
 

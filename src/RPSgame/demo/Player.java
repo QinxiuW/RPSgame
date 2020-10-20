@@ -2,8 +2,8 @@ package RPSgame.demo;
 
 public class Player {
   // 1.Rock 2.Paper 3.Scissors
-  final static String[] COMPLETE_CHOICE_LIST = {"Rock", "Paper", "Scissors"};
-  final static String[] ROCK_CHOICE_LIST = {"Rock"};
+  public final static String[] COMPLETE_CHOICE_LIST = {"Rock", "Paper", "Scissors"};
+  public final static String[] ROCK_CHOICE_LIST = {"Rock"};
 
   private String name;
 
@@ -12,13 +12,6 @@ public class Player {
   private int winCounter;
 
   private int drawCounter;
-
-  public Player(String name, String[] chooseList) {
-    this.name = name;
-    this.chooseList = chooseList;
-    this.winCounter = 0;
-    this.drawCounter = 0;
-  }
 
   public Player(String name, boolean isFair) {
     this.name = name;
