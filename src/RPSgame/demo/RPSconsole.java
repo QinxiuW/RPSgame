@@ -7,6 +7,7 @@ import RPSgame.utils.TextUtils;
 import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class RPSconsole {
 
@@ -80,16 +81,16 @@ public class RPSconsole {
 
     // Active waiting
     System.out.println("waiting for remote player...");
-    String response = "";
-    while (response.isBlank()) {
-      response = queue.take();
+    var response = new AtomicReference<>("");
+    while (response.get().isBlank()) {
+      response.set(queue.take());
       //  Thread.sleep(500);
     }
 
-    var map = CommonUtils.getQueryMap(response);
+    var responseMap = CommonUtils.getQueryMap(response.get());
 
     Player p1 = new Player("Elisa", COMPLETE_CHOICE_LIST);
-    Player p2 = new Player(map.get("player"), COMPLETE_CHOICE_LIST);
+    Player p2 = new Player(responseMap.get("player"), COMPLETE_CHOICE_LIST);
     gameProcess(p1, p2);
 
     // stop the server
