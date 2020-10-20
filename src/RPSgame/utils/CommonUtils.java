@@ -8,13 +8,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-public class Utils {
+public class CommonUtils {
 
   /**
    * Output the text to a file with a specific path name.
    *
    * @param pathName {@code String}
-   * @param data {@code String}
+   * @param data     {@code String}
    */
   public static void outputFile(String pathName, String data) {
     try {
@@ -29,33 +29,48 @@ public class Utils {
       BufferedWriter bufferWriter = new BufferedWriter(fileWriter);
       bufferWriter.write(data);
       bufferWriter.close();
-      System.out.println("Done");
-
+      System.out.println("Output file action Done");
     } catch (IOException e) {
       e.printStackTrace();
     }
   }
 
-
-
+  /**
+   * Get input content and verify until it's a number.
+   *
+   * @return {@code Int}
+   */
   public static int getNumberInput() {
     Scanner input = new Scanner(System.in);
-    while(!(input.hasNextInt())) {
+    while (!(input.hasNextInt())) {
       System.out.println("Your input is invalid, please try again");
       input.next();
     }
     return input.nextInt();
   }
 
+  /**
+   * Get input content, verify until it's a number with a max range.
+   *
+   * @param maxNumber {@code Int}
+   * @return {@code Int}
+   */
   public static int getNumberInputWithLimit(int maxNumber) {
     int number = getNumberInput();
-    while(number > maxNumber || number < 0){
+    while (number > maxNumber || number < 0) {
       System.out.println("Your input is out of range, please try again");
       number = getNumberInput();
     }
     return number;
   }
 
+  /**
+   * given an input with the POST params format ("param1=1&param2=2") and store the data inside a
+   * MAP <String, String> structure.
+   *
+   * @param query {@code String}
+   * @return {@code Map<String,String>}
+   */
   public static Map<String, String> getQueryMap(String query) {
     String[] params = query.split("&");
     Map<String, String> map = new HashMap<String, String>();

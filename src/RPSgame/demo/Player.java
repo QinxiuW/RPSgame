@@ -41,7 +41,7 @@ public class Player {
     this.drawCounter = drawCounter;
   }
 
-  public String getChoose() {
+  public String getChoice() {
     int randNumber = (int) (Math.random() * 10) % 3;
     // unfair case
     if (chooseList.length == 1) {

@@ -2,27 +2,47 @@ package RPSgame.demo;
 
 public class Game {
 
-  private Player p1;
+  private final Player p1;
 
-  private Player p2;
+  private final Player p2;
 
-  // 1.Rock 2.Paper 3.Scissors
+  private String resultInfo;
+
   public Game(Player p1, Player p2) {
     this.p1 = p1;
     this.p2 = p2;
+    this.resultInfo = "";
   }
 
-  public void play() {
-    // TODO: choose maybe null
-    String p1Choose = p1.getChoose();
-    String p2Choose = p2.getChoose();
-    int result = compareChooses(p1Choose, p2Choose);
-    updateResult(result);
-    showResultMsg(result, p1Choose, p2Choose);
+  /**
+   * Play the game regard to the given number of iterations and update the result information.
+   *
+   * @param iteration {@code int}
+   */
+  public void play(int iteration) {
+    for (int idx = 1; idx < iteration + 1; idx++) {
+      // get choice of 2 players
+      String p1Choice = p1.getChoice();
+      String p2Choice = p2.getChoice();
+      // compare the choices
+      int result = compareChoices(p1Choice, p2Choice);
+      // update the result
+      updateResult(idx, result, p1Choice, p2Choice);
+    }
+    addFinalResultInfo();
+  }
+
+  /**
+   * result information getter
+   *
+   * @return {@code String}
+   */
+  public String getResultInfo() {
+    return this.resultInfo;
   }
 
   // [-1]p1 wins, [0]draw, [1]p2 wins
-  private int compareChooses(String p1Choose, String p2Choose) {
+  private int compareChoices(String p1Choose, String p2Choose) {
     if (p1Choose.equals("Rock") && p2Choose.equals("Scissors")
         || p1Choose.equals("Scissors") && p2Choose.equals("Paper")
         || p1Choose.equals("Paper") && p2Choose.equals("Rock")) {
@@ -35,7 +55,14 @@ public class Game {
     return 0;
   }
 
-  private void updateResult(int result) {
+  private void updateResult(int iteration, int result, String p1Choice, String p2Choice) {
+    this.resultInfo = this.resultInfo
+        .concat("\n===================\n Game" + iteration + "\n===================\n");
+    updateResultCounter(result);
+    updateResultMsg(result, p1Choice, p2Choice);
+  }
+
+  private void updateResultCounter(int result) {
     switch (result) {
       case -1:
         this.p1.setWinCounter(this.p1.getWinCounter() + 1);
@@ -50,9 +77,9 @@ public class Game {
     }
   }
 
-  private void showResultMsg(int result, String p1Choose, String p2Choose) {
-    String msg = "["+this.p1.getName() + "] has chosen: [" + p1Choose + "]\n" +
-        "["+this.p2.getName() + "] has chosen: [" + p2Choose + "]\n";
+  private void updateResultMsg(int result, String p1Choose, String p2Choose) {
+    String msg = "[" + this.p1.getName() + "] has chosen: [" + p1Choose + "]\n" +
+        "[" + this.p2.getName() + "] has chosen: [" + p2Choose + "]\n";
     switch (result) {
       case -1:
         msg = msg.concat("the winner is: [" + this.p1.getName() + "]");
@@ -65,9 +92,17 @@ public class Game {
         break;
     }
     // TODO: if result != -1 ,0,1
-    System.out.println(msg);
+    this.resultInfo = this.resultInfo.concat(msg);
   }
 
+  private void addFinalResultInfo() {
+    String msg ="\n\n===================\n FINAL RESULT \n===================\n[" + p1.getName() + "]"
+        + " wins: " + p1.getWinCounter() + " draws: " + p1
+        .getDrawCounter() + "\n[" + p2.getName() + "]" + " wins: " + p2.getWinCounter()
+        + " draws: " + p2
+        .getDrawCounter();
+    this.resultInfo=  this.resultInfo.concat(msg);
+  }
 }
 
 
