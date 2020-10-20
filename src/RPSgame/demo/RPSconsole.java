@@ -12,8 +12,8 @@ import java.util.concurrent.atomic.AtomicReference;
 public class RPSconsole {
 
 
-  final static String[] COMPLETE_CHOICE_LIST = {"Rock", "Paper", "Scissors"};
-  final static String[] ROCK_CHOICE_LIST = {"Rock"};
+//  final static String[] COMPLETE_CHOICE_LIST = {"Rock", "Paper", "Scissors"};
+//  final static String[] ROCK_CHOICE_LIST = {"Rock"};
   final static int GAME_NUMBER = 10;
 
   String resultMsg = "";
@@ -61,15 +61,15 @@ public class RPSconsole {
 
   public void fairMode() {
     // players set up
-    Player p1 = new Player("Elisa", COMPLETE_CHOICE_LIST);
-    Player p2 = new Player("Juan", COMPLETE_CHOICE_LIST);
+    Player p1 = new Player("Elisa", true);
+    Player p2 = new Player("Juan", true);
     gameProcess(p1, p2);
   }
 
   public void unfairMode() {
     // players set up
-    Player p1 = new Player("Elisa", COMPLETE_CHOICE_LIST);
-    Player p2 = new Player("Juan", ROCK_CHOICE_LIST);
+    Player p1 = new Player("Elisa", true);
+    Player p2 = new Player("Juan", false);
     gameProcess(p1, p2);
   }
 
@@ -89,8 +89,8 @@ public class RPSconsole {
 
     var responseMap = CommonUtils.getQueryMap(response.get());
 
-    Player p1 = new Player("Elisa", COMPLETE_CHOICE_LIST);
-    Player p2 = new Player(responseMap.get("player"), COMPLETE_CHOICE_LIST);
+    Player p1 = new Player("Elisa", true);
+    Player p2 = new Player(responseMap.get("player"), true);
     gameProcess(p1, p2);
 
     // stop the server
