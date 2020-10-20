@@ -7,10 +7,6 @@ public class TextUtils {
    */
   public static void welcomeText(){
     System.out.println("Welcome to RPS game");
-    System.out.println("Choice one mode please:");
-    System.out.println(" *[1]fair mode");
-    System.out.println(" *[2]unfair mode");
-    System.out.println(" *[3]remote mode");
   }
 
   /**

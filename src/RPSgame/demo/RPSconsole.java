@@ -78,17 +78,18 @@ public class RPSconsole {
     MyHttpHandler httpHandler = new MyHttpHandler(queue);
     MyHttpServer httpServer = new MyHttpServer(httpHandler);
 
-    //
-    String response = null;
+    // Active waiting
     System.out.println("waiting for remote player...");
-    while (true) {
+    String response = "";
+    while (response.isBlank()) {
       response = queue.take();
-      break;
       //  Thread.sleep(500);
     }
 
+    var map = CommonUtils.getQueryMap(response);
+
     Player p1 = new Player("Elisa", COMPLETE_CHOICE_LIST);
-    Player p2 = new Player(response, COMPLETE_CHOICE_LIST);
+    Player p2 = new Player(map.get("player"), COMPLETE_CHOICE_LIST);
     gameProcess(p1, p2);
 
     // stop the server
@@ -101,7 +102,10 @@ public class RPSconsole {
     // process the game and get result
     game.play(GAME_NUMBER);
     this.resultMsg = this.resultMsg.concat(game.getResultInfo());
-    System.out.println(resultMsg);
+//    System.out.println(resultMsg);
   }
+
+
+
 }
 
