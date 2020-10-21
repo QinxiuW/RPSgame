@@ -24,7 +24,6 @@ public class MyHttpServer {
     this.httpServer.createContext(PATH, myHttpHandler);
     //Set the server's thread pool object
     this.httpServer.setExecutor(Executors.newFixedThreadPool(1));
-
   }
 
   /**
