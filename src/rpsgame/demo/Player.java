@@ -14,8 +14,6 @@ public class Player {
 
   private int drawCounter;
 
-  private String lastChoice;
-
   /**
    * Constructor.
    *
@@ -44,7 +42,6 @@ public class Player {
     return this.choiceList[randNumber];
   }
 
-
   public String getName() {
     return this.name;
   }
@@ -67,14 +64,6 @@ public class Player {
 
   public void setDrawCounter(int drawCounter) {
     this.drawCounter = drawCounter;
-  }
-
-  public void setLastChoice(String choice){
-    this.lastChoice = choice;
-  }
-
-  public String getLastChoice(){
-    return this.lastChoice;
   }
 
   @Override

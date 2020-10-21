@@ -115,7 +115,7 @@ public class GameConsole {
 
 
   private void startGame(Player p1, Player p2) {
-    Game game =new Game(p1,p2,GAME_NUMBER);
+    Game game = new Game(p1, p2, GAME_NUMBER);
     this.resultMsg = game.toString();
   }
 }

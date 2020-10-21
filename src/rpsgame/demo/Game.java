@@ -8,6 +8,13 @@ public class Game {
 
   private final Play[] plays;
 
+  /**
+   * Constructor.
+   *
+   * @param p1        {@link Player} first player.
+   * @param p2        {@link Player} second player.
+   * @param iteration {@code int} number of iterations.
+   */
   public Game(Player p1, Player p2, int iteration) {
     this.p1 = p1;
     this.p2 = p2;

@@ -12,7 +12,7 @@ public class PlayTest {
 
     Player p1 = new Player("p1", true);
     Player p2 = new Player("p2", true);
-    Play play = new Play(1, p1, p2,p1.getRdmChoice(),p2.getRdmChoice());
+    Play play = new Play(1, p1, p2, p1.getRdmChoice(), p2.getRdmChoice());
 
     //Asserts
     assertPlay(play, p1, p2);

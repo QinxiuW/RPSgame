@@ -7,21 +7,29 @@ public class Play {
   private Player p2;
   private String p1Choice;
   private String p2Choice;
-
   private int result;
 
-  public Play(int id,Player p1, Player p2,String p1Choice,String p2Choice){
-    this.id =id;
+  /**
+   * Constructor.
+   *
+   * @param id       {@code int} id of each play.
+   * @param p1       {@link Player} first player.
+   * @param p2       {@link Player} second player.
+   * @param p1Choice {@code String} the random choice of the first player.
+   * @param p2Choice {@code String} the random choice of the second player.
+   */
+  public Play(int id, Player p1, Player p2, String p1Choice, String p2Choice) {
+    this.id = id;
     this.p1 = p1;
     this.p2 = p2;
     this.p1Choice = p1Choice;
     this.p2Choice = p2Choice;
     start();
   }
-  private void start() {
 
+  private void start() {
     // compare both choices
-    this.result=  compareChoices(this.p1Choice, this.p2Choice);
+    this.result = compareChoices(this.p1Choice, this.p2Choice);
 
     // update Players regarding to the result.
     updatePlayersCounter();
