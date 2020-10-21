@@ -51,7 +51,7 @@ public class CommonUtilsTest {
     File f = new File("test");
     if (f.exists()) {
       var result = f.delete();
-      System.out.print("testing file delete status: " + result);
+      Assert.assertTrue(result);
     }
   }
 }

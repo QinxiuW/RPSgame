@@ -33,7 +33,7 @@ public class GameConsoleTest {
     File f = new File(GameConsole.OUTPUT_FILE_PATH);
     if (f.exists()) {
       var result = f.delete();
-      System.out.print("testing file delete status: " + result);
+      Assert.assertTrue(result);
     }
   }
 
