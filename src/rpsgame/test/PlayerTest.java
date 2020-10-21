@@ -50,14 +50,14 @@ public class PlayerTest {
     Player p1 = new Player("testName1", true);
     for (int x = 0; x < 10; x++) {
       Assert
-          .assertTrue(Arrays.stream(Player.COMPLETE_CHOICE_LIST).anyMatch(p1.getChoice()::equals));
+          .assertTrue(Arrays.stream(Player.COMPLETE_CHOICE_LIST).anyMatch(p1.getRdmChoice()::equals));
     }
 
     // unfair case
     Player p2 = new Player("testName2", false);
     for (int x = 0; x < 10; x++) {
       Assert
-          .assertTrue(Arrays.stream(Player.ROCK_CHOICE_LIST).anyMatch(p2.getChoice()::equals));
+          .assertTrue(Arrays.stream(Player.ROCK_CHOICE_LIST).anyMatch(p2.getRdmChoice()::equals));
     }
   }
 

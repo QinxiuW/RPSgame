@@ -78,14 +78,14 @@ public class GameConsole {
     // players set up
     Player p1 = new Player("Elisa", true);
     Player p2 = new Player("Juan", true);
-    gameProcess(p1, p2);
+    startGame(p1, p2);
   }
 
   private void unfairMode() {
     // players set up
     Player p1 = new Player("Elisa", true);
     Player p2 = new Player("Juan", false);
-    gameProcess(p1, p2);
+    startGame(p1, p2);
   }
 
   private void remoteMode() throws IOException, InterruptedException {
@@ -107,34 +107,16 @@ public class GameConsole {
 
     Player p1 = new Player("Elisa", true);
     Player p2 = new Player(responseMap.get("player"), true);
-    gameProcess(p1, p2);
+    startGame(p1, p2);
 
     // stop the server
     httpServer.close();
   }
 
-  private void gameProcess(Player p1, Player p2) {
-//
-//    Game game = new Game(p1, p2);
-//
-//    for (int x = 1; x < GAME_NUMBER + 1; x++) {
-//      String result = game.play(x);
-//      this.resultMsg = this.resultMsg.concat(result);
-//    }
-//    this.resultMsg = this.resultMsg.concat(finalResultInfo(p1, p2));
-  }
-//
-//  private void startGame(Player p1, Player p2) {
-//    for (int x = 1; x < GAME_NUMBER + 1; x++) {
-//      Play game = new Play(x,p1,p2);
-//      this.playList.add(game);
-//    }
-//  }
 
-
-  private String finalResultInfo(Player p1, Player p2) {
-    return "\n\n===================\n FINAL RESULT \n===================\n"
-        + p1.toString() + "\n" + p2.toString();
+  private void startGame(Player p1, Player p2) {
+    Game game =new Game(p1,p2,GAME_NUMBER);
+    this.resultMsg = game.toString();
   }
 }
 

@@ -2,26 +2,26 @@ package rpsgame.demo;
 
 public class Play {
 
+  private int id;
   private Player p1;
   private Player p2;
-  private int result;
-  private int id;
+  private String p1Choice;
+  private String p2Choice;
 
-  public Play(int id,Player p1, Player p2) {
-    this.id = id;
+  private int result;
+
+  public Play(int id,Player p1, Player p2,String p1Choice,String p2Choice){
+    this.id =id;
     this.p1 = p1;
     this.p2 = p2;
+    this.p1Choice = p1Choice;
+    this.p2Choice = p2Choice;
     start();
   }
-
   private void start() {
 
-    // get choice
-    p1.setLastChoice(p1.getChoice());
-    p2.setLastChoice(p2.getChoice());
-
     // compare both choices
-    this.result=  compareChoices(p1.getLastChoice(), p2.getLastChoice());
+    this.result=  compareChoices(this.p1Choice, this.p2Choice);
 
     // update Players regarding to the result.
     updatePlayersCounter();
@@ -61,8 +61,8 @@ public class Play {
   @Override
   public String toString() {
     String msg = "\n\n===================\n Game" + this.id + "\n===================\n";
-    msg = msg.concat("[" + this.p1.getName() + "] has chosen: [" + this.p1.getLastChoice() + "]\n"
-        + "[" + this.p2.getName() + "] has chosen: [" + this.p2.getLastChoice() + "]\n");
+    msg = msg.concat("[" + this.p1.getName() + "] has chosen: [" + p1Choice + "]\n"
+        + "[" + this.p2.getName() + "] has chosen: [" + p2Choice + "]\n");
     switch (this.result) {
       case -1:
         msg = msg.concat("the winner is: [" + this.p1.getName() + "]");

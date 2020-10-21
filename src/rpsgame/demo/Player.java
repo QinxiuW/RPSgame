@@ -34,7 +34,7 @@ public class Player {
    *
    * @return {@code String}
    */
-  public String getChoice() {
+  public String getRdmChoice() {
     int randNumber = (int) (Math.random() * 10) % 3;
     // unfair case
     if (choiceList.length == 1) {

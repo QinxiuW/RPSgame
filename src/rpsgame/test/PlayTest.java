@@ -12,7 +12,7 @@ public class PlayTest {
 
     Player p1 = new Player("p1", true);
     Player p2 = new Player("p2", true);
-    Play play = new Play(1, p1, p2);
+    Play play = new Play(1, p1, p2,p1.getRdmChoice(),p2.getRdmChoice());
 
     //Asserts
     assertPlay(play, p1, p2);
@@ -20,7 +20,7 @@ public class PlayTest {
 
   private void assertPlay(Play play, Player p1, Player p2) {
     // result not empty
-    Assert.assertTrue(!play.toString().isEmpty());
+    Assert.assertFalse(play.toString().isEmpty());
 
     // one of them has to win or is a draw game.
     Assert.assertTrue(
