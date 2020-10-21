@@ -1,12 +1,13 @@
-package RPSgame.test;
+package rpsgame.test;
 
-import RPSgame.utils.CommonUtils;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintStream;
 import org.junit.Assert;
 import org.junit.Test;
+import rpsgame.utils.CommonUtils;
 
 public class CommonUtilsTest {
 
@@ -47,9 +48,10 @@ public class CommonUtilsTest {
         .trim());
     System.setOut(standardOut);
     // delete file
-    File f= new File("test");
-    if(f.exists()){
-      f.delete();
+    File f = new File("test");
+    if (f.exists()) {
+      var result = f.delete();
+      System.out.print("testing file delete status: " + result);
     }
   }
 }

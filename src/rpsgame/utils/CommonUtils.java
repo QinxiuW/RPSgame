@@ -1,4 +1,4 @@
-package RPSgame.utils;
+package rpsgame.utils;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -65,15 +65,14 @@ public class CommonUtils {
   }
 
   /**
-   * given an input with the POST params format ("param1=1&param2=2") and store the data inside a
-   * MAP <String, String> structure.
+   * given an input with the POST params format and store the data inside a MAP structure.
    *
    * @param query {@code String}
    * @return {@code Map<String,String>}
    */
   public static Map<String, String> getQueryMap(String query) {
     String[] params = query.split("&");
-    Map<String, String> map = new HashMap<String, String>();
+    Map<String, String> map = new HashMap<>();
 
     for (String param : params) {
       String name = param.split("=")[0];

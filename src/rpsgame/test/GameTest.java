@@ -1,9 +1,10 @@
-package RPSgame.test;
+package rpsgame.test;
 
-import RPSgame.demo.Game;
-import RPSgame.demo.Player;
+
 import org.junit.Assert;
 import org.junit.Test;
+import rpsgame.demo.Game;
+import rpsgame.demo.Player;
 
 public class GameTest {
 
@@ -20,9 +21,9 @@ public class GameTest {
     Assert.assertFalse(result.isBlank());
 
     // only 1 can win or both draw
-    Assert.assertTrue((p1.getWinCounter() == 1 && p2.getWinCounter() == 0) ||
-        (p1.getWinCounter() == 1 && p2.getDrawCounter() == 1) ||
-        p1.getDrawCounter() == p1.getDrawCounter());
+    Assert.assertTrue((p1.getWinCounter() == 1 && p2.getWinCounter() == 0)
+        || (p1.getWinCounter() == 1 && p2.getDrawCounter() == 1)
+        || p1.getDrawCounter() == p1.getDrawCounter());
 
     // iteration must be the sum of p1 win's counter, p2 win's counter and drawCounter.
     // for this case iteration number must be 3

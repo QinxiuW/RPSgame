@@ -1,6 +1,6 @@
-package RPSgame.test;
+package rpsgame.test;
 
-import RPSgame.demo.GameConsole;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -10,6 +10,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import org.junit.Assert;
 import org.junit.Test;
+import rpsgame.demo.GameConsole;
 
 public class GameConsoleTest {
 
@@ -21,7 +22,7 @@ public class GameConsoleTest {
     GameConsole console = new GameConsole();
     startModeSelectedTest(console, "1", "you have chosen fair mode");
     startModeSelectedTest(console, "2", "you have chosen unfair mode");
-    RemoteModeStartTest(console);
+    remoteModeStartTest(console);
   }
 
   @Test
@@ -31,7 +32,8 @@ public class GameConsoleTest {
     endModeSelectedTest(console, "2", "you have chosen [2]File");
     File f = new File(GameConsole.OUTPUT_FILE_PATH);
     if (f.exists()) {
-      f.delete();
+      var result = f.delete();
+      System.out.print("testing file delete status: " + result);
     }
   }
 
@@ -73,7 +75,7 @@ public class GameConsoleTest {
   }
 
   //remote mode needs http call so I apply 2 threads
-  private void RemoteModeStartTest(GameConsole console) {
+  private void remoteModeStartTest(GameConsole console) {
     new Thread(() -> startModeSelectedTest(console, "3", "you have chosen remote mode")).start();
     new Thread(() -> {
       try {

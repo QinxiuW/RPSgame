@@ -1,10 +1,10 @@
-package RPSgame.test;
+package rpsgame.test;
 
 
-import RPSgame.demo.Player;
 import java.util.Arrays;
 import org.junit.Assert;
 import org.junit.Test;
+import rpsgame.demo.Player;
 
 public class PlayerTest {
 
@@ -20,8 +20,8 @@ public class PlayerTest {
     Player fairPlayer = new Player("fairPlayer", true);
     Player unfairPlayer = new Player("unfairPlayer", false);
 
-    Assert.assertTrue(fairPlayer.getChooseList().equals(Player.COMPLETE_CHOICE_LIST));
-    Assert.assertTrue(unfairPlayer.getChooseList().equals(Player.ROCK_CHOICE_LIST));
+    Assert.assertTrue(fairPlayer.getChoiceList().equals(Player.COMPLETE_CHOICE_LIST));
+    Assert.assertTrue(unfairPlayer.getChoiceList().equals(Player.ROCK_CHOICE_LIST));
   }
 
   @Test

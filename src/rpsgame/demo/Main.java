@@ -1,6 +1,7 @@
-package RPSgame.demo;
+package rpsgame.demo;
 
 public class Main {
+
   public static void main(String[] args) {
     GameConsole gameConsole = new GameConsole();
     gameConsole.start();

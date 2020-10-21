@@ -1,27 +1,32 @@
-package RPSgame.demo;
+package rpsgame.demo;
 
-import RPSgame.server.MyHttpHandler;
-import RPSgame.server.MyHttpServer;
-import RPSgame.utils.CommonUtils;
-import RPSgame.utils.CommonMessage;
+
 import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicReference;
+import rpsgame.server.MyHttpHandler;
+import rpsgame.server.MyHttpServer;
+import rpsgame.utils.CommonMessage;
+import rpsgame.utils.CommonUtils;
 
 public class GameConsole {
 
 
-  final static int GAME_NUMBER = 10;
-  public final static String OUTPUT_FILE_PATH = "result.txt";
+  public static String OUTPUT_FILE_PATH = "result.txt";
+  static int GAME_NUMBER = 10;
+
   String resultMsg = "";
 
+  /**
+   * Initialize the game according to the mode selected by the user. There're 3 modes: fair mode,
+   * unfair mode, remote mode.
+   */
   public void start() {
     CommonMessage.welcomeText();
     CommonMessage.modeChoiceText();
     // the option range is 1-3: [1]fair mode,[2]unfair mode,[3]remote mode
     int input = CommonUtils.getNumberInputWithLimit(3);
-
 
     switch (input) {
       case 1:
@@ -40,9 +45,14 @@ public class GameConsole {
           e.printStackTrace();
         }
         break;
+      default:
+        break;
     }
   }
 
+  /**
+   * End the game and select the option to get the result. There're 2 options: console, file.
+   */
   public void end() {
     CommonMessage.outputChoiceText();
     // the option range is 1-2: [1]Console,[2]File
@@ -57,11 +67,12 @@ public class GameConsole {
         System.out.println("you have chosen [2]File");
         CommonUtils.outputFile(OUTPUT_FILE_PATH, this.resultMsg);
         break;
+      default:
+        break;
     }
     CommonMessage.goodByeText();
 
   }
-
 
   private void fairMode() {
     // players set up
@@ -82,6 +93,7 @@ public class GameConsole {
     BlockingQueue<String> queue = new LinkedBlockingQueue<>(1);
     MyHttpHandler httpHandler = new MyHttpHandler(queue);
     MyHttpServer httpServer = new MyHttpServer(httpHandler);
+    httpServer.start();
 
     // Active waiting
     System.out.println("waiting for remote player...");
@@ -101,18 +113,18 @@ public class GameConsole {
     httpServer.close();
   }
 
-  private void gameProcess(Player p1,Player p2){
+  private void gameProcess(Player p1, Player p2) {
 
     Game game = new Game(p1, p2);
 
-    for(int x=1 ; x<GAME_NUMBER+1; x++){
+    for (int x = 1; x < GAME_NUMBER + 1; x++) {
       String result = game.play(x);
       this.resultMsg = this.resultMsg.concat(result);
     }
-    this.resultMsg = this.resultMsg.concat(finalResultInfo(p1,p2));
+    this.resultMsg = this.resultMsg.concat(finalResultInfo(p1, p2));
   }
 
-  private String finalResultInfo(Player p1,Player p2) {
+  private String finalResultInfo(Player p1, Player p2) {
     return "\n\n===================\n FINAL RESULT \n===================\n[" + p1.getName() + "]"
         + " wins: " + p1.getWinCounter() + " draws: " + p1
         .getDrawCounter() + "\n[" + p2.getName() + "]" + " wins: " + p2.getWinCounter()

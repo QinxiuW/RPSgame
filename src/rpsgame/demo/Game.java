@@ -1,4 +1,4 @@
-package RPSgame.demo;
+package rpsgame.demo;
 
 public class Game {
 
@@ -11,7 +11,13 @@ public class Game {
     this.p2 = p2;
   }
 
-  public String play(int gameId){
+  /**
+   * process the game and return the result.
+   *
+   * @param gameId {@code int}
+   * @return {@code String}
+   */
+  public String play(int gameId) {
 
     // init Players
     String p1Choice = p1.getChoice();
@@ -23,7 +29,7 @@ public class Game {
     // update the result
     updateResultCounter(result);
 
-    return getResultInfo(gameId,result,p1Choice,p2Choice);
+    return getResultInfo(gameId, result, p1Choice, p2Choice);
   }
 
   // [-1]p1 wins, [0]draw, [1]p2 wins
@@ -40,11 +46,11 @@ public class Game {
     return 0;
   }
 
-  private String getResultInfo(int iteration, int result, String p1Choice, String p2Choice){
+  private String getResultInfo(int iteration, int result, String p1Choice, String p2Choice) {
 
     String msg = "\n\n===================\n Game" + iteration + "\n===================\n";
-    msg = msg.concat("[" + this.p1.getName() + "] has chosen: [" + p1Choice + "]\n" +
-        "[" + this.p2.getName() + "] has chosen: [" + p2Choice + "]\n");
+    msg = msg.concat("[" + this.p1.getName() + "] has chosen: [" + p1Choice + "]\n"
+        + "[" + this.p2.getName() + "] has chosen: [" + p2Choice + "]\n");
     switch (result) {
       case -1:
         msg = msg.concat("the winner is: [" + this.p1.getName() + "]");
@@ -54,6 +60,8 @@ public class Game {
         break;
       case 1:
         msg = msg.concat("the winner is: [" + this.p2.getName() + "]");
+        break;
+      default:
         break;
     }
     return msg;
@@ -70,6 +78,8 @@ public class Game {
         break;
       case 1:
         this.p2.setWinCounter(this.p2.getWinCounter() + 1);
+        break;
+      default:
         break;
     }
   }
