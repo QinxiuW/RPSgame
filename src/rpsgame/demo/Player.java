@@ -14,6 +14,8 @@ public class Player {
 
   private int drawCounter;
 
+  private String lastChoice;
+
   /**
    * Constructor.
    *
@@ -65,5 +67,18 @@ public class Player {
 
   public void setDrawCounter(int drawCounter) {
     this.drawCounter = drawCounter;
+  }
+
+  public void setLastChoice(String choice){
+    this.lastChoice = choice;
+  }
+
+  public String getLastChoice(){
+    return this.lastChoice;
+  }
+
+  @Override
+  public String toString() {
+    return "[" + this.name + "] wins:" + this.winCounter + "  draws:" + this.drawCounter;
   }
 }
