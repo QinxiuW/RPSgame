@@ -45,9 +45,14 @@ public class GameTest {
     MyHttpHandler httpHandler = new MyHttpHandler(queue);
     MyHttpServer httpServer = new MyHttpServer(httpHandler);
     httpServer.start();
+
     // Act
     new Thread(() -> remoteGameProcess(iteration, queue)).start();
     new Thread(() -> httpCallProcess(iteration)).start();
+
+    // stop the server
+    httpServer.close();
+    httpHandler.close();
   }
 
 

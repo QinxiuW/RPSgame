@@ -54,7 +54,9 @@ public class PlayTest {
     new Thread(() -> remoteProcess(queue)).start();
     new Thread(() -> CommonUtils.sendHttpCall(url, "POST")).start();
 
+    // stop the server
     httpServer.close();
+    httpHandler.close();
   }
 
   private void remoteProcess(BlockingQueue<String> queue) {

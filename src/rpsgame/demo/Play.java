@@ -33,10 +33,8 @@ public class Play {
   private void start() {
     // both players show their choice
     showChoices();
-
     // compare both choices
     this.result = compareChoices(this.p1Choice, this.p2Choice);
-
     // update Players regarding to the result.
     updatePlayersCounter();
   }
@@ -57,7 +55,7 @@ public class Play {
   }
 
   private String getRemoteChoice() {
-    System.out.println("waiting for remote player's choice...");
+    System.out.println("Game [" + this.id + "] waiting for remote player's choice...");
     var response = new AtomicReference<>("");
     while (response.get().isBlank()) {
       try {
