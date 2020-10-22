@@ -5,6 +5,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import org.junit.Assert;
 import org.junit.Test;
+import rpsgame.common.CommonUtils;
 import rpsgame.demo.Play;
 import rpsgame.demo.Player;
 import rpsgame.server.MyHttpHandler;
@@ -13,11 +14,11 @@ import rpsgame.server.MyHttpServer;
 public class PlayTest {
 
   @Test
-  public void singlePlayTest() throws InterruptedException {
+  public void singlePlayTest() {
 
     Player p1 = new Player("p1", false, true);
     Player p2 = new Player("p2", false, false);
-    Play play = new Play(1, p1, p2);
+    Play play = new Play(1, p1, p2, null);
 
     //Asserts
     assertPlay(play, p1, p2, 1);
@@ -25,7 +26,7 @@ public class PlayTest {
   }
 
   @Test
-  public void multiPlayTest() throws InterruptedException {
+  public void multiPlayTest() {
 
     Player p1 = new Player("p1", false, true);
     Player p2 = new Player("p2", false, true);
@@ -33,7 +34,7 @@ public class PlayTest {
 
     Play[] playArray = new Play[iteration];
     for (int x = 0; x < iteration; x++) {
-      playArray[x] = new Play(x + 1, p1, p2);
+      playArray[x] = new Play(x + 1, p1, p2, null);
     }
     for (Play play : playArray) {
       assertPlay(play, p1, p2, iteration);
@@ -41,23 +42,27 @@ public class PlayTest {
     }
   }
 
-
   @Test
-  public void remotePlayTest() throws IOException, InterruptedException {
+  public void remotePlayTest() throws IOException {
+    String url = "http://localhost:8081/myserver?choice=Rock";
     // Server set up
     BlockingQueue<String> queue = new LinkedBlockingQueue<>(1);
     MyHttpHandler httpHandler = new MyHttpHandler(queue);
     MyHttpServer httpServer = new MyHttpServer(httpHandler);
     httpServer.start();
 
-    Player p1 = new Player("p1", false, true);
-    Player p2 = new Player("p2", true, true);
+    new Thread(() -> remoteProcess(queue)).start();
+    new Thread(() -> CommonUtils.sendHttpCall(url, "POST")).start();
 
-    Play play = new Play(1, p1, p2, queue);
-//
-//    System.out.println(play.toString());
+    httpServer.close();
   }
 
+  private void remoteProcess(BlockingQueue<String> queue) {
+    Player p1 = new Player("p1", false, true);
+    Player p2 = new Player("p2", true, true);
+    Play play = new Play(1, p1, p2, queue);
+    assertPlay(play, p1, p2, 1);
+  }
 
   private void assertPlay(Play play, Player p1, Player p2, int iteration) {
     // result not empty
@@ -72,6 +77,4 @@ public class PlayTest {
     Assert.assertEquals(p1.getWinCounter() + p2.getWinCounter() + p1.getDrawCounter(), iteration);
     Assert.assertEquals(p1.getWinCounter() + p2.getWinCounter() + p2.getDrawCounter(), iteration);
   }
-
-
 }

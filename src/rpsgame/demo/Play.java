@@ -1,7 +1,6 @@
 package rpsgame.demo;
 
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicReference;
 import rpsgame.common.Choices;
 
@@ -15,24 +14,23 @@ public class Play {
   private int result;
   private BlockingQueue<String> remoteChoiceQueue;
 
-  public Play(int id, Player p1, Player p2) throws InterruptedException {
+  /**
+   * Play Constructor.
+   *
+   * @param id                {@code int} identifier of Play.
+   * @param p1                {@link Player} Player.
+   * @param p2                {@link Player} Player.
+   * @param remoteChoiceQueue {@link BlockingQueue} queue for receive remote Player's choice.
+   */
+  public Play(int id, Player p1, Player p2, BlockingQueue<String> remoteChoiceQueue) {
     this.id = id;
     this.p1 = p1;
     this.p2 = p2;
+    this.remoteChoiceQueue = remoteChoiceQueue;
     start();
   }
 
-  public Play(int id, Player p1, Player p2, BlockingQueue<String> remoteChoiceQueue)
-      throws InterruptedException {
-
-    this.id = id;
-    this.p1 = p1;
-    this.p2 = p2;
-    start();
-    this.remoteChoiceQueue = new LinkedBlockingQueue<>(1);
-  }
-
-  private void start() throws InterruptedException {
+  private void start() {
     // both players show their choice
     showChoices();
 
@@ -43,7 +41,7 @@ public class Play {
     updatePlayersCounter();
   }
 
-  private void showChoices() throws InterruptedException {
+  private void showChoices() {
     // remote: one of them is a remote player.
     if (this.p1.getIsRemote()) {
       this.p1Choice = getRemoteChoice();
@@ -58,12 +56,17 @@ public class Play {
     }
   }
 
-  private String getRemoteChoice() throws InterruptedException {
-      var response = new AtomicReference<>("");
-      while (response.get().isBlank()) {
+  private String getRemoteChoice() {
+    System.out.println("waiting for remote player's choice...");
+    var response = new AtomicReference<>("");
+    while (response.get().isBlank()) {
+      try {
         response.set(this.remoteChoiceQueue.take());
-        //  Thread.sleep(500);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
       }
+      //  Thread.sleep(500);
+    }
     return response.get();
   }
 

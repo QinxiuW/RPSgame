@@ -50,11 +50,13 @@ public class MyHttpHandler implements HttpHandler {
     }
   }
 
+  public void close() {
+    this.handler.close();
+  }
+
   // params validation
 
   // reponse output
 
-  public void close(){
-     this.handler.close();
-  }
+
 }
