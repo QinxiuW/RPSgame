@@ -1,5 +1,10 @@
 package rpsgame.demo;
 
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.atomic.AtomicReference;
+import rpsgame.common.Choices;
+
 public class Play {
 
   private int id;
@@ -8,26 +13,29 @@ public class Play {
   private String p1Choice;
   private String p2Choice;
   private int result;
+  private BlockingQueue<String> remoteChoiceQueue;
 
-  /**
-   * Constructor.
-   *
-   * @param id       {@code int} id of each play.
-   * @param p1       {@link Player} first player.
-   * @param p2       {@link Player} second player.
-   * @param p1Choice {@code String} the random choice of the first player.
-   * @param p2Choice {@code String} the random choice of the second player.
-   */
-  public Play(int id, Player p1, Player p2, String p1Choice, String p2Choice) {
+  public Play(int id, Player p1, Player p2) throws InterruptedException {
     this.id = id;
     this.p1 = p1;
     this.p2 = p2;
-    this.p1Choice = p1Choice;
-    this.p2Choice = p2Choice;
     start();
   }
 
-  private void start() {
+  public Play(int id, Player p1, Player p2, BlockingQueue<String> remoteChoiceQueue)
+      throws InterruptedException {
+
+    this.id = id;
+    this.p1 = p1;
+    this.p2 = p2;
+    start();
+    this.remoteChoiceQueue = new LinkedBlockingQueue<>(1);
+  }
+
+  private void start() throws InterruptedException {
+    // both players show their choice
+    showChoices();
+
     // compare both choices
     this.result = compareChoices(this.p1Choice, this.p2Choice);
 
@@ -35,14 +43,38 @@ public class Play {
     updatePlayersCounter();
   }
 
+  private void showChoices() throws InterruptedException {
+    // remote: one of them is a remote player.
+    if (this.p1.getIsRemote()) {
+      this.p1Choice = getRemoteChoice();
+      this.p2Choice = p2.getChoice();
+    } else if (this.p2.getIsRemote()) {
+      this.p1Choice = p1.getChoice();
+      this.p2Choice = getRemoteChoice();
+    } else {
+      // standalone: both are machines.
+      this.p1Choice = p1.getChoice();
+      this.p2Choice = p2.getChoice();
+    }
+  }
+
+  private String getRemoteChoice() throws InterruptedException {
+      var response = new AtomicReference<>("");
+      while (response.get().isBlank()) {
+        response.set(this.remoteChoiceQueue.take());
+        //  Thread.sleep(500);
+      }
+    return response.get();
+  }
+
   private int compareChoices(String p1Choice, String p2Choice) {
-    if (p1Choice.equals("Rock") && p2Choice.equals("Scissors")
-        || p1Choice.equals("Scissors") && p2Choice.equals("Paper")
-        || p1Choice.equals("Paper") && p2Choice.equals("Rock")) {
+    if (p1Choice.equals(Choices.ROCK) && p2Choice.equals(Choices.SCISSORS)
+        || p1Choice.equals(Choices.SCISSORS) && p2Choice.equals(Choices.PAPER)
+        || p1Choice.equals(Choices.PAPER) && p2Choice.equals(Choices.ROCK)) {
       return -1;
-    } else if (p2Choice.equals("Rock") && p1Choice.equals("Scissors")
-        || p2Choice.equals("Scissors") && p1Choice.equals("Paper")
-        || p2Choice.equals("Paper") && p1Choice.equals("Rock")) {
+    } else if (p2Choice.equals(Choices.ROCK) && p1Choice.equals(Choices.SCISSORS)
+        || p2Choice.equals(Choices.SCISSORS) && p1Choice.equals(Choices.PAPER)
+        || p2Choice.equals(Choices.PAPER) && p1Choice.equals(Choices.ROCK)) {
       return 1;
     }
     return 0;

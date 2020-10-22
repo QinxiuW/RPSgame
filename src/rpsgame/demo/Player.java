@@ -1,54 +1,53 @@
 package rpsgame.demo;
 
+import rpsgame.common.Choices;
+
 public class Player {
 
-  // 1.Rock 2.Paper 3.Scissors
-  public static String[] COMPLETE_CHOICE_LIST = {"Rock", "Paper", "Scissors"};
-  public static String[] ROCK_CHOICE_LIST = {"Rock"};
-
-  private String name;
-
-  private String[] choiceList;
+  private final String name;
 
   private int winCounter;
 
   private int drawCounter;
 
+  private final boolean isRemote;
+
+  private final boolean randomChoice;
+
   /**
-   * Constructor.
+   * Player Constructor.
    *
-   * @param name   {@code String}
-   * @param isFair {@code boolean}
+   * @param name         {@code String} Player's name.
+   * @param isRemote     {@code String} if is a remote Player.
+   * @param randomChoice {@code String} if plays with random choices.
    */
-  public Player(String name, boolean isFair) {
+  public Player(String name, boolean isRemote, boolean randomChoice) {
     this.name = name;
     this.winCounter = 0;
     this.drawCounter = 0;
-    this.choiceList = (isFair) ? COMPLETE_CHOICE_LIST : ROCK_CHOICE_LIST;
+    this.isRemote = isRemote;
+    this.randomChoice = randomChoice;
   }
 
   /**
-   * get choice randomly an choice from choiceList.
+   * Return a choice regarding to Player.
    *
-   * @return {@code String}
+   * @return {@code String} Choice.
    */
-  public String getRdmChoice() {
+  public String getChoice() {
     int randNumber = (int) (Math.random() * 10) % 3;
-    // unfair case
-    if (choiceList.length == 1) {
-      return this.choiceList[0];
+
+    if (!this.randomChoice) {
+      return Choices.ROCK;
     }
-    // fair case: random choose
-    return this.choiceList[randNumber];
+    return Choices.COMPLETE_CHOICE_LIST[randNumber];
   }
+
 
   public String getName() {
     return this.name;
   }
 
-  public String[] getChoiceList() {
-    return this.choiceList;
-  }
 
   public int getWinCounter() {
     return winCounter;
@@ -56,6 +55,10 @@ public class Player {
 
   public int getDrawCounter() {
     return drawCounter;
+  }
+
+  public boolean getIsRemote() {
+    return this.isRemote;
   }
 
   public void setWinCounter(int winCounter) {

@@ -1,4 +1,4 @@
-package rpsgame.utils;
+package rpsgame.common;
 
 public class CommonMessage {
 

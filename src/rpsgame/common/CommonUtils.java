@@ -1,4 +1,4 @@
-package rpsgame.utils;
+package rpsgame.common;
 
 import java.io.BufferedWriter;
 import java.io.File;

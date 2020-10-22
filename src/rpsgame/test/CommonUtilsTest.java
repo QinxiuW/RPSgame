@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.PrintStream;
 import org.junit.Assert;
 import org.junit.Test;
-import rpsgame.utils.CommonUtils;
+import rpsgame.common.CommonUtils;
 
 public class CommonUtilsTest {
 

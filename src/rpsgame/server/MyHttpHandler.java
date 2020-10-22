@@ -15,12 +15,15 @@ public class MyHttpHandler implements HttpHandler {
 
   private BlockingQueue<String> queue;
 
+  private HttpExchange handler;
+
   public MyHttpHandler(BlockingQueue<String> queue) {
     this.queue = queue;
   }
 
   @Override
   public void handle(HttpExchange httpExchange) throws IOException {
+    this.handler = httpExchange;
     String requestMethod = httpExchange.getRequestMethod();
     if (requestMethod.equalsIgnoreCase("POST")) {
       //Set the encoding format of the server response,
@@ -47,4 +50,11 @@ public class MyHttpHandler implements HttpHandler {
     }
   }
 
+  // params validation
+
+  // reponse output
+
+  public void close(){
+     this.handler.close();
+  }
 }

@@ -1,24 +1,65 @@
 package rpsgame.test;
 
+import java.io.IOException;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 import org.junit.Assert;
 import org.junit.Test;
 import rpsgame.demo.Play;
 import rpsgame.demo.Player;
+import rpsgame.server.MyHttpHandler;
+import rpsgame.server.MyHttpServer;
 
 public class PlayTest {
 
   @Test
-  public void singlePlayTest() {
+  public void singlePlayTest() throws InterruptedException {
 
-    Player p1 = new Player("p1", true);
-    Player p2 = new Player("p2", true);
-    Play play = new Play(1, p1, p2, p1.getRdmChoice(), p2.getRdmChoice());
+    Player p1 = new Player("p1", false, true);
+    Player p2 = new Player("p2", false, false);
+    Play play = new Play(1, p1, p2);
 
     //Asserts
-    assertPlay(play, p1, p2);
+    assertPlay(play, p1, p2, 1);
+    // System.out.println(play.toString());
   }
 
-  private void assertPlay(Play play, Player p1, Player p2) {
+  @Test
+  public void multiPlayTest() throws InterruptedException {
+
+    Player p1 = new Player("p1", false, true);
+    Player p2 = new Player("p2", false, true);
+    int iteration = 10;
+
+    Play[] playArray = new Play[iteration];
+    for (int x = 0; x < iteration; x++) {
+      playArray[x] = new Play(x + 1, p1, p2);
+    }
+    for (Play play : playArray) {
+      assertPlay(play, p1, p2, iteration);
+      //System.out.println(play.toString());
+    }
+  }
+
+
+  @Test
+  public void remotePlayTest() throws IOException, InterruptedException {
+    // Server set up
+    BlockingQueue<String> queue = new LinkedBlockingQueue<>(1);
+    MyHttpHandler httpHandler = new MyHttpHandler(queue);
+    MyHttpServer httpServer = new MyHttpServer(httpHandler);
+    httpServer.start();
+
+    Player p1 = new Player("p1", false, true);
+    Player p2 = new Player("p2", true, true);
+
+    Play play = new Play(1, p1, p2, queue);
+//
+//    System.out.println(play.toString());
+  }
+
+
+  private void assertPlay(Play play, Player p1, Player p2, int iteration) {
     // result not empty
     Assert.assertFalse(play.toString().isEmpty());
 
@@ -28,7 +69,9 @@ public class PlayTest {
             && p2.getDrawCounter() > 0));
 
     // the sum of p1 win's counter, p2 win's counter and drawCounter of one of them must be 1.
-    Assert.assertEquals(p1.getWinCounter() + p2.getWinCounter() + p1.getDrawCounter(), 1);
-    Assert.assertEquals(p1.getWinCounter() + p2.getWinCounter() + p2.getDrawCounter(), 1);
+    Assert.assertEquals(p1.getWinCounter() + p2.getWinCounter() + p1.getDrawCounter(), iteration);
+    Assert.assertEquals(p1.getWinCounter() + p2.getWinCounter() + p2.getDrawCounter(), iteration);
   }
+
+
 }
