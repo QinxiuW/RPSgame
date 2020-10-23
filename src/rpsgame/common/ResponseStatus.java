@@ -2,10 +2,10 @@ package rpsgame.common;
 
 public enum ResponseStatus {
 
-  OK(200000,"Request successful"),
-  INVALID_PARAMS(400001,"Invalid params"),
-  INVALID_CHOICE(400002,"Invalid choice"),
-  INVALID_PLAYER(400003,"Player's name is too long(max. 20 chars). ");
+  OK(200000, "Request successful"),
+  INVALID_PARAMS(400001, "Invalid params"),
+  INVALID_CHOICE(400002, "Invalid choice"),
+  INVALID_PLAYER(400003, "Player's name is too long(max. 20 chars). ");
 
   private final Integer code;
   private final String message;
@@ -14,6 +14,7 @@ public enum ResponseStatus {
     this.code = code;
     this.message = message;
   }
+
   public Integer getCode() {
     return code;
   }
@@ -41,6 +42,6 @@ public enum ResponseStatus {
   @Override
   // TODO: need be jason foramt
   public String toString() {
-    return "{ code:"+this.code+" message:"+message+"}";
+    return "{ code:" + this.code + " message:" + message + "}";
   }
 }

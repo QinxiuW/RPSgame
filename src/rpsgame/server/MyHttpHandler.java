@@ -9,8 +9,8 @@ import java.util.Arrays;
 import java.util.concurrent.BlockingQueue;
 import rpsgame.common.Choices;
 import rpsgame.common.CommonUtils;
+import rpsgame.common.HttpUtils;
 import rpsgame.common.ResponseStatus;
-import rpsgame.common.httpUtils;
 import rpsgame.demo.Player;
 
 public class MyHttpHandler implements HttpHandler {
@@ -41,44 +41,47 @@ public class MyHttpHandler implements HttpHandler {
       if (!query.isEmpty() && !query.isBlank()) {
         var paramsMap = CommonUtils.getQueryMap(query);
         // check if map's keys match with the given paramPrompt
-        if (httpUtils.validateParamsMap(paramsMap, this.paramPrompt)) {
-          httpUtils.sendResponse(httpExchange, HttpURLConnection.HTTP_OK, ResponseStatus.OK);
+        if (HttpUtils.validateParamsMap(paramsMap, this.paramPrompt)) {
+          HttpUtils.setResponse(httpExchange, HttpURLConnection.HTTP_OK, ResponseStatus.OK);
           // check the value of paramsMap
           validateParamsValue(paramsMap.get(this.paramPrompt));
         }
       }
-      httpUtils.sendResponse(httpExchange, HttpURLConnection.HTTP_BAD_REQUEST, ResponseStatus.INVALID_PARAMS);
+      HttpUtils.setResponse(httpExchange, HttpURLConnection.HTTP_BAD_REQUEST,
+          ResponseStatus.INVALID_PARAMS);
     }
   }
 
 
   private void validateParamsValue(String value) throws IOException {
-    if(this.paramPrompt.equals(httpUtils.PROMPT_CHOICE)){
+    if (this.paramPrompt.equals(HttpUtils.PROMPT_CHOICE)) {
       validateChoice(value);
-    }else if (this.paramPrompt.equals(httpUtils.PROMPT_PLAYER)){
+    } else if (this.paramPrompt.equals(HttpUtils.PROMPT_PLAYER)) {
       validatePlayer(value);
     }
   }
 
   private void validateChoice(String choice) throws IOException {
-    if(Arrays.asList(Choices.COMPLETE_CHOICE_LIST).contains(choice)){
+    if (Arrays.asList(Choices.COMPLETE_CHOICE_LIST).contains(choice)) {
       updateQueue(choice);
-    }else{
-      httpUtils.sendResponse(httpExchange, HttpURLConnection.HTTP_OK, ResponseStatus.INVALID_CHOICE);
+    } else {
+      HttpUtils
+          .setResponse(httpExchange, HttpURLConnection.HTTP_OK, ResponseStatus.INVALID_CHOICE);
     }
   }
 
   private void validatePlayer(String player) throws IOException {
-    if(player.length()<= Player.NAME_MAX_LENGTH){
+    if (player.length() <= Player.NAME_MAX_LENGTH) {
       updateQueue(player);
-    }else{
-      httpUtils.sendResponse(httpExchange, HttpURLConnection.HTTP_OK, ResponseStatus.INVALID_PLAYER);
+    } else {
+      HttpUtils
+          .setResponse(httpExchange, HttpURLConnection.HTTP_OK, ResponseStatus.INVALID_PLAYER);
     }
 
   }
 
 
-  public void close(){
+  public void close() {
     this.httpExchange.close();
   }
 

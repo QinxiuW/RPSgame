@@ -4,7 +4,7 @@ import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.concurrent.Executors;
-import rpsgame.common.httpUtils;
+import rpsgame.common.HttpUtils;
 
 public class MyHttpServer {
 
@@ -12,6 +12,13 @@ public class MyHttpServer {
   // TODO: Port needs go to config file
   static int PORT = 8081;
 
+  /**
+   * MyHttpServer Constructor.
+   *
+   * @param playerHandler {@link HttpHandler} http handler for remote player.
+   * @param choiceHandler {@link HttpHandler} http handler for remote player's choice.
+   * @throws IOException exception.
+   */
   public MyHttpServer(HttpHandler playerHandler, HttpHandler choiceHandler) throws IOException {
 
     //Create an HttpServer instance and bind it to the specified IP address and port number
@@ -19,11 +26,11 @@ public class MyHttpServer {
         .create(new InetSocketAddress(PORT), 0);
 
     //Create an HttpContext
-    if(playerHandler!=null){
-      this.httpServer.createContext(httpUtils.HTTP_PATH_PLAYER, playerHandler);
+    if (playerHandler != null) {
+      this.httpServer.createContext(HttpUtils.HTTP_PATH_PLAYER, playerHandler);
     }
-    if(choiceHandler!=null){
-      this.httpServer.createContext(httpUtils.HTTP_PATH_CHOICE, choiceHandler);
+    if (choiceHandler != null) {
+      this.httpServer.createContext(HttpUtils.HTTP_PATH_CHOICE, choiceHandler);
     }
 
     //Set the server's thread pool object

@@ -5,7 +5,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import org.junit.Assert;
 import org.junit.Test;
-import rpsgame.common.httpUtils;
+import rpsgame.common.HttpUtils;
 import rpsgame.demo.Play;
 import rpsgame.demo.Player;
 import rpsgame.server.MyHttpHandler;
@@ -47,12 +47,12 @@ public class PlayTest {
     String url = "http://localhost:8081/myserver?choice=Rock";
     // Server set up
     BlockingQueue<String> choiceQueue = new LinkedBlockingQueue<>(1);
-    MyHttpHandler choiceHandler = new MyHttpHandler(choiceQueue, httpUtils.PROMPT_CHOICE);
+    MyHttpHandler choiceHandler = new MyHttpHandler(choiceQueue, HttpUtils.PROMPT_CHOICE);
     MyHttpServer httpServer = new MyHttpServer(null, choiceHandler);
     httpServer.start();
 
     new Thread(() -> remoteProcess(httpServer, choiceHandler, choiceQueue)).start();
-    new Thread(() -> httpUtils.sendHttpCall(url, "POST")).start();
+    new Thread(() -> HttpUtils.sendHttpCall(url, "POST")).start();
   }
 
   private void remoteProcess(MyHttpServer server, MyHttpHandler handler,

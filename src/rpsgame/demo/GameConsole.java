@@ -7,7 +7,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicReference;
 import rpsgame.common.CommonMessage;
 import rpsgame.common.CommonUtils;
-import rpsgame.common.httpUtils;
+import rpsgame.common.HttpUtils;
 import rpsgame.server.MyHttpHandler;
 import rpsgame.server.MyHttpServer;
 
@@ -92,9 +92,9 @@ public class GameConsole {
     // Server set up
     BlockingQueue<String> playerQueue = new LinkedBlockingQueue<>(1);
     BlockingQueue<String> choiceQueue = new LinkedBlockingQueue<>(1);
-    MyHttpHandler playerHandler = new MyHttpHandler(playerQueue, httpUtils.PROMPT_PLAYER);
-    MyHttpHandler choiceHandler = new MyHttpHandler(choiceQueue, httpUtils.PROMPT_CHOICE);
-    MyHttpServer httpServer = new MyHttpServer(playerHandler,choiceHandler);
+    MyHttpHandler playerHandler = new MyHttpHandler(playerQueue, HttpUtils.PROMPT_PLAYER);
+    MyHttpHandler choiceHandler = new MyHttpHandler(choiceQueue, HttpUtils.PROMPT_CHOICE);
+    MyHttpServer httpServer = new MyHttpServer(playerHandler, choiceHandler);
     httpServer.start();
 
     // Active waiting

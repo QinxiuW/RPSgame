@@ -9,7 +9,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-public class httpUtils {
+public class HttpUtils {
 
   public static final String HTTP_PATH_PLAYER = "/v1/playerConnect";
   public static final String HTTP_PATH_CHOICE = "/v1/choiceConnect";
@@ -17,24 +17,27 @@ public class httpUtils {
   public static final String PROMPT_CHOICE = "choice";
   public static final String PROMPT_PLAYER = "player";
 
+  /**
+   * validate the map content regard to the given paramPrompt.
+   *
+   * @param paramsMap   {@link Map} map of query's params.
+   * @param paramPrompt {@code String} param's prompt.
+   * @return {@code boolean} boolean value.
+   */
   public static boolean validateParamsMap(Map<String, String> paramsMap, String paramPrompt) {
     return paramsMap.containsKey(paramPrompt) && !paramsMap.get(paramPrompt).isEmpty()
         && paramsMap.size() == 1;
   }
 
-  // reponse output
-  public static void sendResponse(HttpExchange httpExchange, int httpCode, String response)
-      throws IOException {
-    httpExchange.sendResponseHeaders(httpCode, response.getBytes(
-        StandardCharsets.UTF_8).length);
-    OutputStream responseBody = httpExchange.getResponseBody();
-    OutputStreamWriter writer = new OutputStreamWriter(responseBody, StandardCharsets.UTF_8);
-    writer.write(response);
-    writer.close();
-    responseBody.close();
-  }
-
-  public static void sendResponse(HttpExchange httpExchange, int httpCode, ResponseStatus status)
+  /**
+   * Set http response for the given httpExchange.
+   *
+   * @param httpExchange {@link HttpExchange} httpExchange.
+   * @param httpCode     {@code int}http response standard code.
+   * @param status       {@link ResponseStatus} costume response status.
+   * @throws IOException exception.
+   */
+  public static void setResponse(HttpExchange httpExchange, int httpCode, ResponseStatus status)
       throws IOException {
     httpExchange.sendResponseHeaders(httpCode, status.toString().getBytes(
         StandardCharsets.UTF_8).length);
