@@ -4,6 +4,8 @@ import rpsgame.common.Choices;
 
 public class Player {
 
+  public static final int NAME_MAX_LENGTH = 20;
+
   private final String name;
 
   private int winCounter;

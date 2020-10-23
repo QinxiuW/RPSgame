@@ -4,8 +4,10 @@ package rpsgame.demo;
 import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.atomic.AtomicReference;
 import rpsgame.common.CommonMessage;
 import rpsgame.common.CommonUtils;
+import rpsgame.common.httpUtils;
 import rpsgame.server.MyHttpHandler;
 import rpsgame.server.MyHttpServer;
 
@@ -40,7 +42,7 @@ public class GameConsole {
         System.out.println("you have chosen remote mode");
         try {
           remoteMode();
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
           e.printStackTrace();
         }
         break;
@@ -86,30 +88,31 @@ public class GameConsole {
     startGame(p1, p2, null);
   }
 
-  private void remoteMode() throws IOException {
+  private void remoteMode() throws IOException, InterruptedException {
     // Server set up
-    BlockingQueue<String> queue = new LinkedBlockingQueue<>(1);
-    MyHttpHandler httpHandler = new MyHttpHandler(queue);
-    MyHttpServer httpServer = new MyHttpServer(httpHandler);
+    BlockingQueue<String> playerQueue = new LinkedBlockingQueue<>(1);
+    BlockingQueue<String> choiceQueue = new LinkedBlockingQueue<>(1);
+    MyHttpHandler playerHandler = new MyHttpHandler(playerQueue, httpUtils.PROMPT_PLAYER);
+    MyHttpHandler choiceHandler = new MyHttpHandler(choiceQueue, httpUtils.PROMPT_CHOICE);
+    MyHttpServer httpServer = new MyHttpServer(playerHandler,choiceHandler);
     httpServer.start();
 
-//    // Active waiting
-//    System.out.println("waiting for remote player...");
-//    var response = new AtomicReference<>("");
-//    while (response.get().isBlank()) {
-//      response.set(queue.take());
-//      //  Thread.sleep(500);
-//    }
-//
-//    var responseMap = CommonUtils.getQueryMap(response.get());
+    // Active waiting
+    System.out.println("waiting for remote player...");
+    var response = new AtomicReference<>("");
+    while (response.get().isBlank()) {
+      response.set(playerQueue.take());
+      //  Thread.sleep(500);
+    }
+
     Player p1 = new Player("Elisa", false, true);
-    Player p2 = new Player(("remote player"), true, true);
-    startGame(p1, p2, queue);
+    Player p2 = new Player(response.get(), true, true);
+    startGame(p1, p2, choiceQueue);
 
     // stop the server
     httpServer.close();
-    httpHandler.close();
-
+    playerHandler.close();
+    choiceHandler.close();
   }
 
 

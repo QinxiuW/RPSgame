@@ -4,8 +4,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -25,7 +23,7 @@ public class CommonUtils {
       //if file doesnt exists, then create it
       if (!file.exists()) {
         if (file.createNewFile()) {
-          System.out.print("File created successful");
+          System.out.print("File create successful");
         }
       }
 
@@ -86,19 +84,4 @@ public class CommonUtils {
     return map;
   }
 
-  /**
-   * Send HTTP call.
-   *
-   * @param urlDir {@code String} url of the HTTP call.
-   * @param method {@code String} REST method.
-   */
-  public static void sendHttpCall(String urlDir, String method) {
-    try {
-      URL url = new URL(urlDir);
-      HttpURLConnection con = (HttpURLConnection) url.openConnection();
-      con.setRequestMethod(method);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
 }
