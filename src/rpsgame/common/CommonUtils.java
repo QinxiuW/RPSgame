@@ -22,7 +22,7 @@ public class CommonUtils {
 
       //if file doesnt exists, then create it
       if (!file.exists()) {
-        if(file.createNewFile()){
+        if (file.createNewFile()) {
           System.out.println("File create successful");
         }
       }
