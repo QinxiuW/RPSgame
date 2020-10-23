@@ -37,29 +37,33 @@ public class GameTest {
 
 
   @Test
-  public void remoteGameTest() throws IOException {
-
-    // Server set up
+  public void remoteGameTest() {
+    // Arrange
     int iteration = 10;
+    // Act
+    new Thread(() -> {
+      try {
+        remoteGameProcess(iteration);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }).start();
+    new Thread(() -> httpCallProcess(iteration)).start();
+  }
+
+
+  private void remoteGameProcess(int iteration) throws IOException {
+    // Arrange
+    Player p1 = new Player("player1", false, true);
+    Player p2 = new Player("player2", true, true);
+    // Server set up
     BlockingQueue<String> choiceQueue = new LinkedBlockingQueue<>(1);
     MyHttpHandler choiceHandler = new MyHttpHandler(choiceQueue, HttpUtils.PROMPT_CHOICE);
     MyHttpServer httpServer = new MyHttpServer(null, choiceHandler);
     httpServer.start();
 
     // Act
-    new Thread(() -> remoteGameProcess(httpServer, choiceHandler, iteration, choiceQueue)).start();
-    new Thread(() -> httpCallProcess(iteration)).start();
-  }
-
-
-  private void remoteGameProcess(MyHttpServer server, MyHttpHandler handler, int iteration,
-      BlockingQueue<String> queue) {
-    // Arrange
-    Player p1 = new Player("player1", false, true);
-    Player p2 = new Player("player2", true, true);
-
-    // Act
-    Game game = new Game(p1, p2, iteration, queue);
+    Game game = new Game(p1, p2, iteration, choiceQueue);
     // Asserts
     // result is not empty
     Assert.assertFalse(game.toString().isEmpty());
@@ -70,8 +74,8 @@ public class GameTest {
     Assert.assertEquals(p1.getWinCounter() + p2.getWinCounter() + p2.getDrawCounter(), iteration);
 
     // stop the server
-    server.close();
-    handler.close();
+    httpServer.close();
+    choiceHandler.close();
   }
 
   private void httpCallProcess(int iteration) {

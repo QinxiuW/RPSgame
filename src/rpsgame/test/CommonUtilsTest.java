@@ -44,8 +44,7 @@ public class CommonUtilsTest {
   public void outPutFileTest() {
     System.setOut(new PrintStream(outputStreamCaptor));
     CommonUtils.outputFile("test", "data");
-    Assert.assertEquals("Output file action Done", outputStreamCaptor.toString()
-        .trim());
+    Assert.assertTrue(outputStreamCaptor.toString().trim().contains("Output file action Done"));
     System.setOut(standardOut);
     // delete file
     File f = new File("test");

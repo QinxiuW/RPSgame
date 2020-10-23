@@ -10,7 +10,7 @@ public class MyHttpServer {
 
   private com.sun.net.httpserver.HttpServer httpServer;
   // TODO: Port needs go to config file
-  static int PORT = 8080;
+  static int PORT = 8081;
 
   /**
    * MyHttpServer Constructor.

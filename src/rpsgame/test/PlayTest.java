@@ -43,27 +43,35 @@ public class PlayTest {
   }
 
   @Test
-  public void remotePlayTest() throws IOException {
+  public void remotePlayTest() {
+
     String url = "http://localhost:8081/myserver?choice=Rock";
+
+    new Thread(() -> {
+      try {
+        remoteProcess();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }).start();
+    new Thread(() -> HttpUtils.sendHttpCall(url, "POST")).start();
+  }
+
+  private void remoteProcess() throws IOException {
+
     // Server set up
     BlockingQueue<String> choiceQueue = new LinkedBlockingQueue<>(1);
     MyHttpHandler choiceHandler = new MyHttpHandler(choiceQueue, HttpUtils.PROMPT_CHOICE);
     MyHttpServer httpServer = new MyHttpServer(null, choiceHandler);
     httpServer.start();
 
-    new Thread(() -> remoteProcess(httpServer, choiceHandler, choiceQueue)).start();
-    new Thread(() -> HttpUtils.sendHttpCall(url, "POST")).start();
-  }
-
-  private void remoteProcess(MyHttpServer server, MyHttpHandler handler,
-      BlockingQueue<String> queue) {
     Player p1 = new Player("p1", false, true);
     Player p2 = new Player("p2", true, true);
-    Play play = new Play(1, p1, p2, queue);
+    Play play = new Play(1, p1, p2, choiceQueue);
     assertPlay(play, p1, p2, 1);
 
-    server.close();
-    handler.close();
+    httpServer.close();
+    choiceHandler.close();
   }
 
   private void assertPlay(Play play, Player p1, Player p2, int iteration) {
