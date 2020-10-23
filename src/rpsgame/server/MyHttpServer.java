@@ -10,16 +10,17 @@ public class MyHttpServer {
 
   private com.sun.net.httpserver.HttpServer httpServer;
   // TODO: Port needs go to config file
-//  static int PORT = 8081;
 
   /**
    * MyHttpServer Constructor.
    *
+   * @param port          {@code int} server port.
    * @param playerHandler {@link HttpHandler} http handler for remote player.
    * @param choiceHandler {@link HttpHandler} http handler for remote player's choice.
    * @throws IOException exception.
    */
-  public MyHttpServer(int port, HttpHandler playerHandler, HttpHandler choiceHandler) throws IOException {
+  public MyHttpServer(int port, HttpHandler playerHandler, HttpHandler choiceHandler)
+      throws IOException {
 
     //Create an HttpServer instance and bind it to the specified IP address and port number
     this.httpServer = com.sun.net.httpserver.HttpServer

@@ -64,7 +64,7 @@ public class PlayTest {
     // Server set up
     BlockingQueue<String> choiceQueue = new LinkedBlockingQueue<>(1);
     MyHttpHandler choiceHandler = new MyHttpHandler(choiceQueue, HttpUtils.PROMPT_CHOICE);
-    MyHttpServer httpServer = new MyHttpServer(PORT,null, choiceHandler);
+    MyHttpServer httpServer = new MyHttpServer(PORT, null, choiceHandler);
     httpServer.start();
 
     Player p1 = new Player("p1", false, true);
