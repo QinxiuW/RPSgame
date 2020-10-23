@@ -55,6 +55,7 @@ public class HttpUtils {
    * @param urlDir {@code String} url of the HTTP call.
    * @param method {@code String} REST method.
    */
+  // TODO: return response version
   public static void sendHttpCall(String urlDir, String method) {
     try {
       URL url = new URL(urlDir);

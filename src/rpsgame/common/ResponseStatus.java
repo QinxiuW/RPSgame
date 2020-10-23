@@ -40,7 +40,7 @@ public enum ResponseStatus {
 
 
   @Override
-  // TODO: need be jason foramt
+  // TODO: need be jason format
   public String toString() {
     return "{ code:" + this.code + " message:" + message + "}";
   }
