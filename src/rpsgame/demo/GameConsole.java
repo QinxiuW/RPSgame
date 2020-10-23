@@ -19,6 +19,7 @@ public class GameConsole {
 
   String resultMsg = "";
 
+
   /**
    * Initialize the game according to the mode selected by the user. There're 3 modes: fair mode,
    * unfair mode, remote mode.
@@ -94,7 +95,7 @@ public class GameConsole {
     BlockingQueue<String> choiceQueue = new LinkedBlockingQueue<>(1);
     MyHttpHandler playerHandler = new MyHttpHandler(playerQueue, HttpUtils.PROMPT_PLAYER);
     MyHttpHandler choiceHandler = new MyHttpHandler(choiceQueue, HttpUtils.PROMPT_CHOICE);
-    MyHttpServer httpServer = new MyHttpServer(playerHandler, choiceHandler);
+    MyHttpServer httpServer = new MyHttpServer(HttpUtils.PORT, playerHandler, choiceHandler);
     httpServer.start();
 
     // Active waiting

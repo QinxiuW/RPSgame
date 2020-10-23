@@ -11,6 +11,7 @@ import java.util.Map;
 
 public class HttpUtils {
 
+  public static final int PORT = 8080;
   public static final String HTTP_PATH_PLAYER = "/v1/playerConnect";
   public static final String HTTP_PATH_CHOICE = "/v1/choiceConnect";
 

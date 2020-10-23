@@ -14,6 +14,7 @@ import rpsgame.server.MyHttpServer;
 
 public class GameTest {
 
+  static final int PORT = 8082;
 
   @Test
   public void gameTest() {
@@ -59,7 +60,7 @@ public class GameTest {
     // Server set up
     BlockingQueue<String> choiceQueue = new LinkedBlockingQueue<>(1);
     MyHttpHandler choiceHandler = new MyHttpHandler(choiceQueue, HttpUtils.PROMPT_CHOICE);
-    MyHttpServer httpServer = new MyHttpServer(null, choiceHandler);
+    MyHttpServer httpServer = new MyHttpServer(PORT, null, choiceHandler);
     httpServer.start();
 
     // Act
